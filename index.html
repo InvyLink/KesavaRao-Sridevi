@@ -5,6 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Wedding Anniversary</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
       <style>
          body, html {
          margin: 0;
@@ -112,16 +113,30 @@
          font-family: monospace;
          font-weight: bold;
          }
+		 .speaker-icon {
+            position: fixed;
+            top: 6px;
+            right: 6px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+            transition: color 0.3s ease;
+        }
          .carousel-inner { border-radius: 40px
          }
          @media (min-width: 768px) {
          .container-sm {
-         max-width: 375px;
+         max-width: 500px;
          }
          }
       </style>
    </head>
    <body>
+	  <i id="speaker-icon" class="fas fa-volume-mute speaker-icon"></i>
+	  <audio id="bg-music" loop>
+		<source src="https://invylink.github.io/KesavaRao-Sridevi/music/Audiomp3.mp3" type="audio/mpeg">
+	  </audio>
       <div id="section1" class="section" style="background: url('https://raw.githubusercontent.com/InvyLink/KesavaRao-Sridevi/main/images/lightbluewallpaper.jpg') no-repeat center center/cover;">
          <div class="overlay container-sm">
             <div class="banner">
@@ -131,7 +146,7 @@
                <p class="subtitle">Join us to celebrate</p>
                <p class="details detls"><strong>25 YEARS OF WEDDED BLISS!</strong></p>
                <p class="details">Monday | April 21 | 7:30 PM</p>
-			   <p class="details">S Convention Hall | RTC Workshop Road | Bhavanipuram | Vijayawada-12</p>
+			   <p class="details">S Convention Hall | RTC Workshop Road | Vidhyadharapuram | Vijayawada</p>
                <div class="countdownd">
                   <div><span id="days">00</span> <br> DAYS</div>
                   <div><span id="hours">00</span> <br> HRS</div>
@@ -210,6 +225,38 @@
                 }
          
                 const interval = setInterval(updateCountdown, 1000);
+				
+				const audio = document.getElementById("bg-music"); // Define audio globally
+				const speakerIcon = document.getElementById("speaker-icon");
+				
+				document.addEventListener("click", (event) => {
+					// Check if the clicked element OR its parent is the speaker icon
+					if (event.target.id === "speaker-icon" || event.target.closest("#speaker-icon")) {
+						//console.log("Speaker icon clicked!");
+				
+						// Toggle audio play/pause
+						if (audio.paused) {
+							audio.play().then(() => {
+							//console.log("U r here icon clicked!",speakerIcon.classList);
+								speakerIcon.classList.remove("fa-volume-mute");
+								speakerIcon.classList.add("fa-volume-up");
+							}).catch(err => console.log("Playback blocked:", err));
+						} else {
+						//console.log("U r here 2123333 icon clicked!",speakerIcon.classList);
+							audio.pause();
+							speakerIcon.classList.remove("fa-volume-up");
+							speakerIcon.classList.add("fa-volume-mute");
+						}
+					}
+				});
+				// Pause audio when tab is hidden
+				document.addEventListener("visibilitychange", () => {
+					if (document.hidden) {
+						audio.pause();
+						speakerIcon.classList.remove("fa-volume-up");
+						speakerIcon.classList.add("fa-volume-mute");
+					}
+				});
             
       </script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
